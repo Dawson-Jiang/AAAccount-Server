@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dawson.aaaccount.domain.DaybookDao">
+	<resultMap id="BaseResultMap"
+		type="com.dawson.aaaccount.entity.DayBook">
+		<id column="id" property="id" jdbcType="VARCHAR" />
+		<result column="money" property="money" jdbcType="DOUBLE" />
+		<result column="description" property="description"
+			jdbcType="VARCHAR" />
+	</resultMap>
+	  <sql id="Base_Column_List" >
+        id, money, description
+    </sql>
+      <select id="getAll"  resultType="com.dawson.aaaccount.entity.DayBook"  >
+       SELECT 
+       <include refid="Base_Column_List" />
+	   FROM daybook
+    </select>
+        <insert id="insert" parameterType="com.dawson.aaaccount.entity.DayBook" >
+       INSERT INTO 
+       		daybook
+       		( id, money, description) 
+       	VALUES
+       		(#{id}, #{money}, #{description})
+    </insert>
+</mapper>

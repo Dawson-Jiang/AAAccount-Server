@@ -1,8 +1,10 @@
 package com.dawson.aaaccount.entity;
 
+import java.math.BigDecimal;
+
 public class DayBook {
 	private String id;
-	private double money;
+	private BigDecimal money;
 	private String description;
 	public String getId() {
 		return id;
@@ -10,10 +12,10 @@ public class DayBook {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public double getMoney() {
+	public BigDecimal getMoney() {
 		return money;
 	}
-	public void setMoney(double money) {
+	public void setMoney(BigDecimal money) {
 		this.money = money;
 	}
 	public String getDescription() {

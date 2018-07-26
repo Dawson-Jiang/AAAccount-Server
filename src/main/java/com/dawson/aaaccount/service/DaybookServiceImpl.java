@@ -1,5 +1,6 @@
 package com.dawson.aaaccount.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -29,8 +30,10 @@ public class DaybookServiceImpl implements DaybookService {
 		tdb.setId(UUID.randomUUID().toString());
 		tdb.setDescription("买菜");
 		double money = new Random().nextDouble() * 100;
-		money = (double)Math.round(money * 100) / 100;
-		tdb.setMoney(money);
+//		money = (double)Math.round(money * 100) / 100D;
+		BigDecimal dmoney=new BigDecimal(money);
+		dmoney.setScale(2,BigDecimal.ROUND_HALF_UP);
+		tdb.setMoney(dmoney);
 		daybookDao.insert(tdb);
 	}
 

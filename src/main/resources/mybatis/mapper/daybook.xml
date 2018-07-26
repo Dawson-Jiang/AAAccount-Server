@@ -4,14 +4,13 @@
 	<resultMap id="BaseResultMap"
 		type="com.dawson.aaaccount.entity.DayBook">
 		<id column="id" property="id" jdbcType="VARCHAR" />
-		<result column="money" property="money" jdbcType="DOUBLE" />
-		<result column="description" property="description"
-			jdbcType="VARCHAR" />
+		<result column="money" property="money" jdbcType="DECIMAL" />
+		<result column="des" property="description" jdbcType="VARCHAR" />
 	</resultMap>
 	  <sql id="Base_Column_List" >
-        id, money, description
+        id, money, des
     </sql>
-      <select id="getAll"  resultType="com.dawson.aaaccount.entity.DayBook"  >
+      <select id="getAll" resultMap="BaseResultMap" resultType="com.dawson.aaaccount.entity.DayBook"  >
        SELECT 
        <include refid="Base_Column_List" />
 	   FROM daybook
@@ -19,7 +18,7 @@
         <insert id="insert" parameterType="com.dawson.aaaccount.entity.DayBook" >
        INSERT INTO 
        		daybook
-       		( id, money, description) 
+       		( id, money, des) 
        	VALUES
        		(#{id}, #{money}, #{description})
     </insert>

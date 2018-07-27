@@ -17,22 +17,22 @@
 		<!--自动生成的实体的存放包路径 -->
 		<javaModelGenerator
 			targetPackage="com.dawson.aaaccount.entity"
-			targetProject="src/main/java">
+			targetProject="C:\mybatis_temp">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!--自动生成的*Mapper.xml文件存放路径 -->
 		<sqlMapGenerator
-			targetPackage="com.dawson.aaaccount.domain"
-			targetProject="src/main/java">
+			targetPackage="mapper"
+			targetProject="C:\mybatis_temp">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!--自动生成的*Mapper.java存放路径 -->
 		<javaClientGenerator type="XMLMAPPER"
 			targetPackage="com.dawson.aaaccount.domain"
-			targetProject="src/main/java">
+			targetProject="C:\mybatis_temp">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
@@ -41,12 +41,23 @@
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
 			<generatedKey column="id"
-				sqlStatement="selectuuid_short()" identity="false" />
+				sqlStatement="select uuid()" identity="false" />
 		</table>
 
-		<table tableName="user" domainObjectName="User"  schema="aaaccount">
+		<table tableName="duser" domainObjectName="DUser"
+		    enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
 			<generatedKey column="id"
-				sqlStatement="select uuid_short()" identity="false" />
+				sqlStatement="select uuid()" identity="false" />
+		</table>
+		
+		<table tableName="daybook" domainObjectName="DayBook"
+		    enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id"
+				sqlStatement="select uuid()" identity="false" />
 		</table>
 	</context>
 

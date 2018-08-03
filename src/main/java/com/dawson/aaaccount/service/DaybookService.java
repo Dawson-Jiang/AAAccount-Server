@@ -2,9 +2,10 @@ package com.dawson.aaaccount.service;
 
 import java.util.List;
 
-import com.dawson.aaaccount.entity.DayBook;
+import com.dawson.aaaccount.entity.Daybook;
+
 
 public interface DaybookService {
-	  List<DayBook> getAll();
-	  void  addDayBook(DayBook daybook);
+	  List<Daybook> getAll();
+	  void  addDaybook(Daybook daybook);
 }

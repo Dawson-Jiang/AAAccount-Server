@@ -4,16 +4,20 @@
    "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-	<context id="mysqlContext" targetRuntime="MyBatis3">
+	<context id="aaaccount" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="false" /><!-- 是否取消注释 -->
+			<property name="suppressDate" value="true" /> <!-- 是否生成注释时间戳 -->
+		</commentGenerator>
+
 		<jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-			connectionURL="jdbc:mysql://localhost:3306/aaaccount" 
-			userId="root"
+			connectionURL="jdbc:mysql://localhost:3306/aaaccount" userId="root"
 			password="1111" />
 		<!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
-		
+
 		<!--自动生成的实体的存放包路径 -->
 		<javaModelGenerator
 			targetPackage="com.dawson.aaaccount.entity"
@@ -23,8 +27,7 @@
 		</javaModelGenerator>
 
 		<!--自动生成的*Mapper.xml文件存放路径 -->
-		<sqlMapGenerator
-			targetPackage="mapper"
+		<sqlMapGenerator targetPackage="mapper"
 			targetProject="C:\mybatis_temp">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
@@ -36,28 +39,96 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
+		<table tableName="duser" domainObjectName="DUser"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
 		<table tableName="login_info" domainObjectName="LoginInfo"
 			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
-			<generatedKey column="id"
-				sqlStatement="select uuid()" identity="false" />
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
 		</table>
-
-		<table tableName="duser" domainObjectName="DUser"
-		    enableCountByExample="false" enableUpdateByExample="false"
+		<table schema="aaaccount" tableName="category"
+			domainObjectName="Category" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="family" domainObjectName="Family"
+			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
-			<generatedKey column="id"
-				sqlStatement="select uuid()" identity="false" />
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
 		</table>
-		
-		<table tableName="daybook" domainObjectName="DayBook"
-		    enableCountByExample="false" enableUpdateByExample="false"
+		<table tableName="family_member" domainObjectName="FamilyMember"
+			enableCountByExample="false" enableUpdateByExample="false"
 			enableDeleteByExample="false" enableSelectByExample="false"
 			selectByExampleQueryId="false">
-			<generatedKey column="id"
-				sqlStatement="select uuid()" identity="false" />
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="files" domainObjectName="Files"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="daybook" domainObjectName="Daybook"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="daybook_consumer"
+			domainObjectName="DaybookConsumer" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="daybook_picture"
+			domainObjectName="DaybookPicture" enableCountByExample="false"
+			enableUpdateByExample="false" enableDeleteByExample="false"
+			enableSelectByExample="false" selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="settle" domainObjectName="Settle"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="settle_detail" domainObjectName="SettleDetail"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="system_log" domainObjectName="SystemLog"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
+		</table>
+		<table tableName="feedback" domainObjectName="Feedback"
+			enableCountByExample="false" enableUpdateByExample="false"
+			enableDeleteByExample="false" enableSelectByExample="false"
+			selectByExampleQueryId="false">
+			<generatedKey column="id" sqlStatement="select uuid()"
+				identity="false" />
 		</table>
 	</context>
 

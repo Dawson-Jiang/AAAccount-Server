@@ -17,9 +17,9 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
-import com.dawson.aaaccount.entity.DUser;
+import com.dawson.aaaccount.entity.User;
 import com.dawson.aaaccount.entity.Daybook;
-import com.dawson.aaaccount.service.DaybookService;
+import com.dawson.aaaccount.service.daybook.DaybookService;
 
 @RestController
 @RequestMapping("/daybook")
@@ -35,7 +35,7 @@ public class DaybookController {
 	}
 
 	@RequestMapping("/getusers")
-	public List<DUser> getUsers() {
+	public List<User> getUsers() {
 		AVQuery<AVUser> query = new AVQuery<AVUser>("_User");
 	
 //		AVUser.loginWithAuthData(userInfo, callback);
@@ -59,13 +59,13 @@ public class DaybookController {
 			e.printStackTrace();
 			return null;
 		}
-		List<DUser> users = new ArrayList<DUser>();
+		List<User> users = new ArrayList<User>();
 		objs.forEach(new Consumer<AVUser>() {
 
 			@Override
 			public void accept(AVUser avObject) {
 
-				DUser duser = new DUser();
+				User duser = new User();
 				duser.setId(avObject.getObjectId());
 				duser.setCreateTime(avObject.getCreatedAt());
 				duser.setUpdateTime(avObject.getUpdatedAt());

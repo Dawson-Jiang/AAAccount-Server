@@ -50,4 +50,6 @@ public interface LoginInfoMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(LoginInfo record);
+    
+    LoginInfo selectByUserId(String userid);
 }

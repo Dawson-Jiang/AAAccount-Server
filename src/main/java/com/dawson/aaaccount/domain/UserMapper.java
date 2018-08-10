@@ -50,4 +50,6 @@ public interface UserMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(User record);
+    
+    User selectByOpenid(String openid);
 }

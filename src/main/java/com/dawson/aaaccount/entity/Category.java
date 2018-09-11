@@ -28,7 +28,7 @@ public class Category {
      *
      * @mbg.generated
      */
-    private Integer order;
+    private Integer orderFlag;
 
     /**
      *
@@ -104,8 +104,8 @@ public class Category {
      *
      * @mbg.generated
      */
-    public Integer getOrder() {
-        return order;
+    public Integer getOrderFlag() {
+        return orderFlag;
     }
 
     /**
@@ -116,8 +116,8 @@ public class Category {
      *
      * @mbg.generated
      */
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setOrderFlag(Integer orderFlag) {
+        this.orderFlag = orderFlag;
     }
 
     /**

@@ -137,4 +137,10 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+   <select id="selectByUserId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    family.id, name, is_temp, creator_id, create_time, update_time
+    from family,family_member
+    where  family.id=family_member.family and family_member.member= #{userid,jdbcType=VARCHAR}
+  </select>
 </mapper>

@@ -1,5 +1,7 @@
 package com.dawson.aaaccount.domain;
 
+import java.util.List;
+
 import com.dawson.aaaccount.entity.Daybook;
 
 public interface DaybookMapper {
@@ -50,4 +52,6 @@ public interface DaybookMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Daybook record);
+    
+    List<Daybook> selectByHost(String fid,String uid,int offset,int rows);
 }

@@ -1,5 +1,7 @@
 package com.dawson.aaaccount.domain;
 
+import java.util.List;
+
 import com.dawson.aaaccount.entity.Category;
 
 public interface CategoryMapper {
@@ -50,4 +52,6 @@ public interface CategoryMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Category record);
+    
+    List<Category> selectAll();
 }

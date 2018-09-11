@@ -1,5 +1,7 @@
 package com.dawson.aaaccount.domain;
 
+import java.util.List;
+
 import com.dawson.aaaccount.entity.Family;
 
 public interface FamilyMapper {
@@ -50,4 +52,6 @@ public interface FamilyMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Family record);
+    
+    List<Family> selectByUserId(String userid);
 }

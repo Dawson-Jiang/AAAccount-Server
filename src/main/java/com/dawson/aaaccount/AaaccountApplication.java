@@ -5,8 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.mybatis.spring.annotation.MapperScan;
+ 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,7 +13,7 @@ import com.avos.avoscloud.AVOSCloud;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
-@MapperScan("com.dawson.aaaccount.domain")
+//@MapperScan("com.dawson.aaaccount.domain")
 public class AaaccountApplication {
 
 	public static void main(String[] args) {

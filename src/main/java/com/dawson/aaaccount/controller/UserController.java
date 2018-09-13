@@ -48,7 +48,7 @@ public class UserController {
 
 	@RequestMapping("/updateLoginInfo")
 	public OperateResult<Object> updateLoginInfo(@RequestBody LoginInfo loginInfo) {
-		if (loginInfo == null || TextUtils.isEmpty(loginInfo.getUserId()))
+		if (loginInfo == null ||  loginInfo.getUser()==null)
 			return CommonUtils.<Object>getParamError();
 		else
 			return userService.updateLoginInfo(loginInfo);

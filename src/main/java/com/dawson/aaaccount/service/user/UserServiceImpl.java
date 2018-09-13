@@ -6,40 +6,35 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.dawson.aaaccount.domain.DaybookMapper;
-import com.dawson.aaaccount.domain.LoginInfoMapper;
-import com.dawson.aaaccount.domain.UserMapper;
 import com.dawson.aaaccount.entity.ErrorCode;
 import com.dawson.aaaccount.entity.LoginInfo;
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
+import com.dawson.aaaccount.repository.LoginInfoRepository;
+import com.dawson.aaaccount.repository.UserRepository;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Resource
-	private UserMapper userDao;
+	private UserRepository userDao;
 
 	@Resource
-	private LoginInfoMapper loginDao;
+	private LoginInfoRepository loginDao;
 
 	@Override
 	public OperateResult<User> login(User user) {
-		User tUser = userDao.selectByOpenid(user.getOpenid());
-		int res = 0;
+		User tUser = userDao.findByOpenid(user.getOpenid());
+
 		if (tUser == null) {
 			tUser = new User();
 			tUser.setOpenid(user.getOpenid());
-			tUser.setToken(user.getToken());
-			tUser.setLastLoginTime(new Date());
-			tUser.setAuthData(user.getAuthData());
-			res = userDao.insertSelective(tUser);
-		} else {
-			tUser.setToken(user.getToken());
-			tUser.setLastLoginTime(new Date());
-			tUser.setAuthData(user.getAuthData());
-			res = userDao.updateByPrimaryKeySelective(tUser);
 		}
-		if (res > 0)
+		tUser.setToken(user.getToken());
+		tUser.setLastLoginTime(new Date());
+		tUser.setAuthData(user.getAuthData());
+		tUser = userDao.save(tUser);
+
+		if (tUser != null)
 			return new OperateResult<User>(tUser);
 		else
 			return new OperateResult<User>(ErrorCode.FAIL, "");
@@ -47,27 +42,27 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public OperateResult<Object> updateLoginInfo(LoginInfo loginInfo) {
-		int res = 0;
+		LoginInfo tloginInfo = null;
 		if (loginInfo.getVersion() != null && !loginInfo.getVersion().isEmpty()) {
-			LoginInfo tloginInfo = loginDao.selectByUserId(loginInfo.getUserId());
+			tloginInfo = loginDao.findByUser(loginInfo.getUser());
 			if (tloginInfo == null) {
-				res = loginDao.insertSelective(loginInfo);
+				tloginInfo = loginDao.save(loginInfo);
 			} else {
 				loginInfo.setId(tloginInfo.getId());
 				loginInfo.setUpdateTime(new Date());
-				res = loginDao.updateByPrimaryKeySelective(loginInfo);
+				tloginInfo = loginDao.save(loginInfo);
 			}
-
 		} else
-			res = 1;
-		if (res > 0) {
+			tloginInfo = loginInfo;
+		boolean res = tloginInfo != null;
+		if (res) {
 			User user = new User();
-			user.setId(loginInfo.getUserId());
+			user.setId(tloginInfo.getUser().getId());
 			user.setLastLoginTime(new Date());
 			user.setUpdateTime(new Date());
-			res = userDao.updateByPrimaryKeySelective(user);
+			res = userDao.save(user) != null;
 		}
-		if (res > 0)
+		if (res)
 			return new OperateResult<Object>("");
 		else
 			return new OperateResult<Object>(ErrorCode.FAIL, "");
@@ -76,7 +71,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public OperateResult<Object> updateInfo(User user) {
 		user.setUpdateTime(new Date());
-		int res = userDao.updateByPrimaryKeySelective(user);
+		int res = userDao.save(user) == null ? 0 : 1;
 		if (res > 0)
 			return new OperateResult<Object>("");
 		else

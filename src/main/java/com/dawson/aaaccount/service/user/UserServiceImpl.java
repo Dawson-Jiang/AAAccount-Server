@@ -43,25 +43,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public OperateResult<Object> updateLoginInfo(LoginInfo loginInfo) {
 		LoginInfo tloginInfo = null;
-		if (loginInfo.getVersion() != null && !loginInfo.getVersion().isEmpty()) {
-			tloginInfo = loginDao.findByUser(loginInfo.getUser());
-			if (tloginInfo == null) {
-				tloginInfo = loginDao.save(loginInfo);
-			} else {
-				loginInfo.setId(tloginInfo.getId());
-				loginInfo.setUpdateTime(new Date());
-				tloginInfo = loginDao.save(loginInfo);
-			}
-		} else
-			tloginInfo = loginInfo;
+//		if (loginInfo.getVersion() != null && !loginInfo.getVersion().isEmpty()) {
+//			tloginInfo = loginDao.findByUser(loginInfo.getUser());
+//			if (tloginInfo == null) {
+//				tloginInfo = loginDao.save(loginInfo);
+//			} else {
+//				loginInfo.setId(tloginInfo.getId());
+//				loginInfo.setUpdateTime(new Date());
+//				tloginInfo = loginDao.save(loginInfo);
+//			}
+//		} else
+//			tloginInfo = loginInfo;
 		boolean res = tloginInfo != null;
-		if (res) {
-			User user = new User();
-			user.setId(tloginInfo.getUser().getId());
-			user.setLastLoginTime(new Date());
-			user.setUpdateTime(new Date());
-			res = userDao.save(user) != null;
-		}
+//		if (res) {
+//			User user = new User();
+//			user.setId(tloginInfo.getUser().getId());
+//			user.setLastLoginTime(new Date());
+//			user.setUpdateTime(new Date());
+//			res = userDao.save(user) != null;
+//		}
 		if (res)
 			return new OperateResult<Object>("");
 		else

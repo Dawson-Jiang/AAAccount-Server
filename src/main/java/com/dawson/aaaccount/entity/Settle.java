@@ -101,7 +101,7 @@ public class Settle  implements Serializable {
      */
     private Byte settled;
     
-    @OneToMany(cascade = {CascadeType.REFRESH,CascadeType.MERGE},mappedBy = "settle",fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "settle",fetch = FetchType.EAGER)
     private List<SettleDetail> details;
     
 

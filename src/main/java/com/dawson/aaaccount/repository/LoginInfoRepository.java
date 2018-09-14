@@ -6,6 +6,6 @@ import com.dawson.aaaccount.entity.LoginInfo;
 import com.dawson.aaaccount.entity.User;
 
 public interface LoginInfoRepository extends CrudRepository<LoginInfo,Integer> { 
-	LoginInfo findByUser(User user);
+ 
 }
 

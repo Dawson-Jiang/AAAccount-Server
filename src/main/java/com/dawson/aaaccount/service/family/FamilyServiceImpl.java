@@ -17,12 +17,37 @@ public class FamilyServiceImpl implements FamilyService {
 	private FamilyRepository familyDao;
 	
 	@Override
-	public OperateResult<Family> getFamily(String id) {
+	public OperateResult<Family> get(String id) {
  		return new OperateResult<Family>( familyDao.findById(id).get());
 	}
 
+ 
+
 	@Override
-	public OperateResult<List<Family>> getFamilyByUserId(String userid) {
+	public OperateResult<List<Family>> getMyFamily(String userid) {
 		return new OperateResult<List<Family>>(null);//TODO
+	}
+
+	@Override
+	public OperateResult<String> save(Family family) {
+		Family res= familyDao.save(family);
+		if(res==null)return new OperateResult<String>();
+		else return new OperateResult<String>(res.getId());
+	}
+
+
+
+	@Override
+	public OperateResult<Object> join(String fid, String uid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public OperateResult<Object> disJoin(String fid, String uid) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

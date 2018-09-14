@@ -18,20 +18,9 @@ public class DaybookServiceImpl implements DaybookService {
 	@Resource
 	private DaybookRepository daybookDao;
 
-	@Override
-	public OperateResult<List<Daybook>> getDaybook(String fid, String uid, int page, int limit) {
-		int offset = page * limit;
-		try {
-			if(fid==null|| "".equals(fid)) fid=null;
-			if(uid==null|| "".equals(uid)) uid=null;
-			return new OperateResult<List<Daybook>>(new ArrayList<>());//TODO
-		} catch (Exception e) {
-			return new OperateResult<>(0, "查询失败");
-		}
-	}
 
 	@Override
-	public OperateResult<String> addDaybook(Daybook daybook) {
+	public OperateResult<String> save(Daybook daybook) {
 		int res = daybookDao.save(daybook)==null?0:1;
 		if (res > 0)
 			return new OperateResult<String>(daybook.getId());
@@ -49,5 +38,44 @@ public class DaybookServiceImpl implements DaybookService {
 		} catch (Exception e) {
 			return new OperateResult<>(0, "操作失败");
 		}
+	}
+
+	@Override
+	public OperateResult<Daybook> get(String id) {
+	 
+		try {
+			
+			return new OperateResult<Daybook>(null);//TODO
+		} catch (Exception e) {
+			return new OperateResult<>(0, "查询失败");
+		} 
+	}
+
+	@Override
+	public OperateResult<List<Daybook>> getFamilyDaybook(String fid, int page, int limit) {
+		int offset = page * limit;
+		try {
+ 
+			return new OperateResult<List<Daybook>>(new ArrayList<>());//TODO
+		} catch (Exception e) {
+			return new OperateResult<>(0, "查询失败");
+		}
+	}
+
+	@Override
+	public OperateResult<List<Daybook>> getMyDaybook(String uid, int page, int limit) {
+		int offset = page * limit;
+		try {
+		 
+			return new OperateResult<List<Daybook>>(new ArrayList<>());//TODO
+		} catch (Exception e) {
+			return new OperateResult<>(0, "查询失败");
+		}
+	}
+
+	@Override
+	public OperateResult<Object> del(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

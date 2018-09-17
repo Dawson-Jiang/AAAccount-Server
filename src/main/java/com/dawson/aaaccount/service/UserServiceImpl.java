@@ -1,4 +1,4 @@
-package com.dawson.aaaccount.service.user;
+package com.dawson.aaaccount.service;
 
 import java.util.Date;
 
@@ -16,14 +16,14 @@ import com.dawson.aaaccount.repository.UserRepository;
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Resource
-	private UserRepository userDao;
+	private UserRepository userRepository;
 
 	@Resource
-	private LoginInfoRepository loginDao;
+	private LoginInfoRepository loginInfoRepository;
 
 	@Override
 	public OperateResult<User> login(User user) {
-		User tUser = userDao.findByOpenid(user.getOpenid());
+		User tUser = userRepository.findByOpenid(user.getOpenid());
 
 		if (tUser == null) {
 			tUser = new User();
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		tUser.setToken(user.getToken());
 		tUser.setLastLoginTime(new Date());
 		tUser.setAuthData(user.getAuthData());
-		tUser = userDao.save(tUser);
+		tUser = userRepository.save(tUser);
 
 		if (tUser != null)
 			return new OperateResult<User>(tUser);
@@ -44,20 +44,20 @@ public class UserServiceImpl implements UserService {
 	public OperateResult<Object> updateLoginInfo(User user) {
 		LoginInfo tloginInfo = null;
 		if (user.getLoginInfo() != null) {
-			User tUser = userDao.findById(user.getId()).get();
+			User tUser = userRepository.findById(user.getId()).get();
 			if (tUser.getLoginInfo() != null) {
 				user.getLoginInfo().setId(tUser.getLoginInfo().getId());
-				tloginInfo = loginDao.save(user.getLoginInfo());
+				tloginInfo = loginInfoRepository.save(user.getLoginInfo());
 				user.setLoginInfo(null);
 			} else {
-				tloginInfo = loginDao.save(user.getLoginInfo());
+				tloginInfo = loginInfoRepository.save(user.getLoginInfo());
 				user.setLoginInfo(tloginInfo);
 			}
 		}
 
 		user.setLastLoginTime(new Date());
 		user.setUpdateTime(new Date());
-		boolean res = userDao.save(user) != null;
+		boolean res = userRepository.save(user) != null;
 
 		if (res)
 			return new OperateResult<Object>("");
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public OperateResult<Object> updateInfo(User user) {
 		user.setUpdateTime(new Date());
-		int res = userDao.save(user) == null ? 0 : 1;
+		int res = userRepository.save(user) == null ? 0 : 1;
 		if (res > 0)
 			return new OperateResult<Object>("");
 		else

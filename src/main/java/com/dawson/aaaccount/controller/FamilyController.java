@@ -17,7 +17,7 @@ import com.dawson.aaaccount.entity.ErrorCode;
 import com.dawson.aaaccount.entity.Family;
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
-import com.dawson.aaaccount.service.family.FamilyService;
+import com.dawson.aaaccount.service.FamilyService;
 
 @RestController
 @RequestMapping("/family")

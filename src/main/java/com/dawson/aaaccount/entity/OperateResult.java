@@ -8,6 +8,7 @@ public class OperateResult<T> {
 	private T content;
 	
 	public OperateResult() {}
+	
 	public OperateResult(T ct) {
 		content=ct;
 		result=ErrorCode.SUCCESS;

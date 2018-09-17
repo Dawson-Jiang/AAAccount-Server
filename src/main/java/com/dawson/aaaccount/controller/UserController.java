@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.dawson.aaaccount.CommonUtils; 
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
-import com.dawson.aaaccount.service.user.UserService;
+import com.dawson.aaaccount.service.UserService;
 
 @RestController
 @RequestMapping("/user")

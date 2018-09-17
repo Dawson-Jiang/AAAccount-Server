@@ -1,4 +1,4 @@
-package com.dawson.aaaccount.service.daybook;
+package com.dawson.aaaccount.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +16,12 @@ import com.dawson.aaaccount.repository.DaybookRepository;
 @Service("daybookService")
 public class DaybookServiceImpl implements DaybookService { 
 	@Resource
-	private DaybookRepository daybookDao;
+	private DaybookRepository daybookRepository;
 
 
 	@Override
 	public OperateResult<String> save(Daybook daybook) {
-		int res = daybookDao.save(daybook)==null?0:1;
+		int res = daybookRepository.save(daybook)==null?0:1;
 		if (res > 0)
 			return new OperateResult<String>(daybook.getId());
 		else
@@ -29,12 +29,12 @@ public class DaybookServiceImpl implements DaybookService {
 	}
 
 	@Resource
-	private CategoryRepository categoryDao;
+	private CategoryRepository categoryRepository;
 
 	@Override
 	public OperateResult<List<Category>> getCategory() {
 		try {
-			return new OperateResult<>((List<Category>)categoryDao.findAll());
+			return new OperateResult<>((List<Category>)categoryRepository.findAll());
 		} catch (Exception e) {
 			return new OperateResult<>(0, "操作失败");
 		}
@@ -75,7 +75,12 @@ public class DaybookServiceImpl implements DaybookService {
 
 	@Override
 	public OperateResult<Object> del(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		try {
+		 	daybookRepository.deleteById(id);	 
+		return new  OperateResult<Object>( 1);	 
+
+		} catch (Exception e) {
+			return new  OperateResult<Object>(0,e.getMessage());	 
+		}
+ 	}
 }

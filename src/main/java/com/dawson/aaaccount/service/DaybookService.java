@@ -1,4 +1,4 @@
-package com.dawson.aaaccount.service.daybook;
+package com.dawson.aaaccount.service;
 
 import java.util.List;
 

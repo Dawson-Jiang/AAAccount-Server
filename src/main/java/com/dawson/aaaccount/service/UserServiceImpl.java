@@ -31,22 +31,20 @@ public class UserServiceImpl implements UserService {
 		}
 		tUser.setToken(user.getToken());
 		tUser.setLastLoginTime(new Date());
+		tUser.setUpdateTime(new Date());
 		tUser.setAuthData(user.getAuthData());
 		tUser = userRepository.save(tUser);
 
-		if (tUser != null)
+		if (tUser != null) {
 			return new OperateResult<User>(tUser);
-		else
+		}else
 			return new OperateResult<User>(ErrorCode.FAIL, "");
 	}
 
 	@Override
 	public OperateResult<Object> updateLoginInfo(User user) {
 		User tUser = userRepository.findById(user.getId()).get();
-		if (user.getLoginInfo() == null) {
-			tUser.setLastLoginTime(new Date());
-			tUser.setUpdateTime(new Date());
-		} else {
+		if (user.getLoginInfo() != null) {
 			LoginInfo tloginInfo = user.getLoginInfo();
 			if (tUser.getLoginInfo() != null) {
 				tloginInfo.setId(tUser.getLoginInfo().getId());
@@ -56,6 +54,8 @@ public class UserServiceImpl implements UserService {
 				tUser.setLoginInfo(tloginInfo);
 			}
 		}
+		tUser.setLastLoginTime(new Date());
+		tUser.setUpdateTime(new Date());
 		boolean res = userRepository.save(tUser) != null;
 
 		if (res)

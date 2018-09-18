@@ -13,7 +13,12 @@ import javax.persistence.Table;
 @Table(name="family")
 public class Family  extends BaseEntity {
 	private static final long serialVersionUID = 7419229896231522702L;
-     
+    
+	public   Family() {		}
+	public   Family(boolean isclean) {
+super(isclean);		 
+	}  
+	
     private String name;
  
     @ManyToOne

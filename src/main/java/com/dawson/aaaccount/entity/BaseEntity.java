@@ -9,17 +9,28 @@ import javax.persistence.MappedSuperclass;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
   
+	public   BaseEntity() {		}
+	public   BaseEntity(boolean isclean) {
+		if(isclean) {
+			setCreateTime(null);
+			setUpdateTime(null);
+		}
+	}
+	
+	
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	private String id;
-
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Date createTime = new Date();
-
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Date updateTime = new Date();
 
 	public String getId() {

@@ -2,44 +2,55 @@ package com.dawson.aaaccount.entity;
  
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
+import java.util.List; 
 
-import javax.persistence.Entity;
+import javax.persistence.Entity; 
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table; 
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonInclude; 
 
 @Entity
 @Table(name="daybook")
 public class Daybook extends BaseEntity {
 	private static final long serialVersionUID = 7419229896237854702L;
   
+	public   Daybook() {		}
+		public   Daybook(boolean isclean) {
+	super(isclean);		 
+		}
+	
     private BigDecimal money;
  
     @ManyToOne
     @JoinColumn(name = "recorder_id")
     private User recorder;
- 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String des;
- 
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private Date date;
  
     @ManyToOne
     @JoinColumn(name = "family_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private Family family;
  
     @ManyToOne
     @JoinColumn(name = "payer_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private User payer;
  
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id" )
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private Category category;
     
     @ManyToMany
     @JoinTable(name="daybook_consumer",joinColumns=@JoinColumn(name="daybook_id"),inverseJoinColumns=@JoinColumn(name="user_id"))
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private List<User> consumer;
 
     public Family getFamily() {
@@ -82,18 +93,27 @@ public class Daybook extends BaseEntity {
 		this.settle = settle;
 	}
 
+ 
+ 
+    public User getRecorder() {
+		return recorder;
+	}
+
 	public void setRecorder(User recorder) {
 		this.recorder = recorder;
 	}
- 
-    @ManyToOne
+
+
+
+	@ManyToOne
     @JoinColumn(name = "settle_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private Settle settle;
- 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String pic1;
- 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String pic2;
- 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String pic3;
 
     public BigDecimal getMoney() {

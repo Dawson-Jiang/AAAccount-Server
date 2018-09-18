@@ -1,5 +1,6 @@
 package com.dawson.aaaccount.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -31,6 +32,7 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public OperateResult<String> save(Family family) {
+		family.setUpdateTime(new Date());
 		Family res= familyDao.save(family);
 		if(res==null)return new OperateResult<String>();
 		else return new OperateResult<String>(res.getId());

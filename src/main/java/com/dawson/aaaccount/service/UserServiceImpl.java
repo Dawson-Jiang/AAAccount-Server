@@ -42,22 +42,21 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public OperateResult<Object> updateLoginInfo(User user) {
-		LoginInfo tloginInfo = null;
-		if (user.getLoginInfo() != null) {
-			User tUser = userRepository.findById(user.getId()).get();
+		User tUser = userRepository.findById(user.getId()).get();
+		if (user.getLoginInfo() == null) {
+			tUser.setLastLoginTime(new Date());
+			tUser.setUpdateTime(new Date());
+		} else {
+			LoginInfo tloginInfo = user.getLoginInfo();
 			if (tUser.getLoginInfo() != null) {
-				user.getLoginInfo().setId(tUser.getLoginInfo().getId());
-				tloginInfo = loginInfoRepository.save(user.getLoginInfo());
-				user.setLoginInfo(null);
+				tloginInfo.setId(tUser.getLoginInfo().getId());
+				tloginInfo = loginInfoRepository.save(tloginInfo);
 			} else {
-				tloginInfo = loginInfoRepository.save(user.getLoginInfo());
-				user.setLoginInfo(tloginInfo);
+				tloginInfo=	loginInfoRepository.save(tloginInfo);
+				tUser.setLoginInfo(tloginInfo);
 			}
 		}
-
-		user.setLastLoginTime(new Date());
-		user.setUpdateTime(new Date());
-		boolean res = userRepository.save(user) != null;
+		boolean res = userRepository.save(tUser) != null;
 
 		if (res)
 			return new OperateResult<Object>("");
@@ -67,8 +66,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public OperateResult<Object> updateInfo(User user) {
-		user.setUpdateTime(new Date());
-		int res = userRepository.save(user) == null ? 0 : 1;
+		User tUser = userRepository.findById(user.getId()).get();
+		tUser.setName(user.getName());
+		tUser.setEmail(user.getEmail());
+		tUser.setHeadPic(user.getHeadPic());
+		tUser.setUpdateTime(new Date());
+		int res = userRepository.save(tUser) == null ? 0 : 1;
 		if (res > 0)
 			return new OperateResult<Object>("");
 		else

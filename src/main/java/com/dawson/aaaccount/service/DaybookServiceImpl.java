@@ -1,6 +1,7 @@
 package com.dawson.aaaccount.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -21,6 +22,7 @@ public class DaybookServiceImpl implements DaybookService {
 
 	@Override
 	public OperateResult<String> save(Daybook daybook) {
+		daybook.setUpdateTime(new Date());
 		int res = daybookRepository.save(daybook)==null?0:1;
 		if (res > 0)
 			return new OperateResult<String>(daybook.getId());

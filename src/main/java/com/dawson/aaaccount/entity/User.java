@@ -16,22 +16,14 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User extends BaseEntity {
 	private static final long serialVersionUID = 7419229779731522702L;
-	
-	@Id
-	@GeneratedValue(generator = "uuid")
-	@GenericGenerator(name = "uuid", strategy = "uuid2")
-	private String id;
+	 
 
 	
 	private String name;
 
-	
-	private Date createTime;
-
-	
-	private Date updateTime;
+ 
 
 	
 	private String headPic;
@@ -67,15 +59,7 @@ public class User implements Serializable {
 	
 	private String openid;
 
-	
-	public String getId() {
-		return id;
-	}
-
-	
-	public void setId(String id) {
-		this.id = id == null ? null : id.trim();
-	}
+	 
 
 	
 	public String getName() {
@@ -88,24 +72,7 @@ public class User implements Serializable {
 	}
 
 	
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-
-	
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
+	 
 
 	
 	public String getHeadPic() {

@@ -3,6 +3,7 @@ package com.dawson.aaaccount.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.function.Consumer;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -13,6 +14,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
 import com.dawson.aaaccount.entity.Category;
@@ -38,19 +40,36 @@ public class FamilyServiceImpl implements FamilyService {
 		Specification<Family> specification = new Specification<Family>() {
 			@Override
 			public Predicate toPredicate(Root<Family> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-				User user = new User();
-				user.setId(userid);
-				Join<Daybook, User> join = root.join("member", JoinType.LEFT);
-				return criteriaBuilder.or(criteriaBuilder.equal(join.get("user_id"), userid));
+//				User user = new User();
+//				user.setId(userid);
+				Join<Family, User> join=root.join("member",JoinType.INNER);
+				return criteriaBuilder.and(criteriaBuilder.equal(join.get("id"), userid));
 			}
 		};
-
+		
+		   
+		
+//		String hql = "select family, user from family f join f.member us where us.user_id='" + userid + "'";
 		try {
-			List<Family> res = (List<Family>) familyRepository.findAll(specification);
-			if (res == null)
-				res = new ArrayList<>();
+
+//			List<Object[]> objres = familyRepository.getFamilyByMember(hql);
+			  List<Family> res = new ArrayList<>();
+//			objres.forEach(new Consumer<Object[]>() {
+//
+//				@Override
+//				public void accept(Object[] obj) {
+//					Family family = (Family) obj[0];
+//					res.add(family);
+//				}
+//			});
+
+			res=	 (List<Family>) familyRepository.findAll(specification);
+
+//			if (res == null)
+//				res = new ArrayList<>();
 			return new OperateResult<>(res);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return new OperateResult<>(0, "操作失败");
 		}
 	}

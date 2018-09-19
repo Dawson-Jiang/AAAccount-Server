@@ -35,8 +35,8 @@ public class FamilyController {
 	}
 
 	@RequestMapping("/get")
-	public OperateResult<Family> get(@RequestBody String id) {
-
+	public OperateResult<Family> get(@RequestBody Map<String, String> body) {
+		String id=body.get("id");
 		if (TextUtils.isEmpty(id))
 			return CommonUtils.<Family>getParamError();
 		else
@@ -44,8 +44,8 @@ public class FamilyController {
 	}
 
 	@RequestMapping("/get_my_family")
-	public OperateResult<List<Family>> getMyFamily(@RequestBody String userid) {
-
+	public OperateResult<List<Family>> getMyFamily(@RequestBody Map<String, String> body) {
+		String userid=body.get("uid");
 		if (TextUtils.isEmpty(userid))
 			return CommonUtils.<List<Family>>getParamError();
 		else
@@ -87,7 +87,8 @@ public class FamilyController {
 	}
 
 	@RequestMapping("/del")
-	public OperateResult<Object> del(@RequestBody String id) {
+	public OperateResult<Object> del(@RequestBody Map<String, String> body) {
+		String id=body.get("id");
 		if (TextUtils.isEmpty(id))
 			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
 		return familyService.del(id);

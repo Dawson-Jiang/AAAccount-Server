@@ -47,7 +47,9 @@ public class DaybookServiceImpl implements DaybookService {
 	@Override
 	public OperateResult<List<Category>> getCategory() {
 		try {
-			return new OperateResult<>((List<Category>) categoryRepository.findAll());
+			List<Category> res=(List<Category>) categoryRepository.findAll();
+			if(res==null)res=new ArrayList<>();
+			 return new OperateResult<>(res);
 		} catch (Exception e) {
 			return new OperateResult<>(0, "操作失败");
 		}
@@ -84,10 +86,12 @@ public class DaybookServiceImpl implements DaybookService {
 			});
 			daybook.setConsumer(tUsers);
 
+			if(daybook.getFamily()!=null) {
 			Family tFamily = new Family(true);
 			tFamily.setId(daybook.getFamily().getId());
 			tFamily.setName(daybook.getFamily().getName());
 			daybook.setFamily(tFamily);
+			}
 
 			if (daybook.getSettle() != null) {
 				Settle tSettle = new Settle(true);
@@ -192,7 +196,6 @@ public class DaybookServiceImpl implements DaybookService {
 		try {
 			daybookRepository.deleteById(id);
 			return new OperateResult<Object>(1);
-
 		} catch (Exception e) {
 			return new OperateResult<Object>(0, e.getMessage());
 		}

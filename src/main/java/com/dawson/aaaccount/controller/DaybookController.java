@@ -75,13 +75,15 @@ public class DaybookController {
 	}
 	
 	@RequestMapping("/get")
-	public OperateResult<Daybook> get(@RequestBody  String id) {
+	public OperateResult<Daybook> get(@RequestBody  Map<String, String> body) {
+		String id=body.get("id");
 		if(TextUtils.isEmpty(id))return new OperateResult< Daybook>(ErrorCode.PARAM_ERROR,"参数错误");
 		return daybookService.get(id);
 	}
 	
 	@RequestMapping("/del")
-	public OperateResult<Object> del(@RequestBody  String id) {
+	public OperateResult<Object> del(@RequestBody Map<String, String> body) {
+		String id=body.get("id");
 		if(TextUtils.isEmpty(id))return new OperateResult< Object>(ErrorCode.PARAM_ERROR,"参数错误");
 		return daybookService.del(id);
 	}

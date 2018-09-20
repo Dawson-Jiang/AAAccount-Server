@@ -13,6 +13,8 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.apache.http.util.TextUtils;
+import org.aspectj.weaver.ast.Literal;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import com.dawson.aaaccount.entity.Family;
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
 import com.dawson.aaaccount.repository.FamilyRepository;
+import com.dawson.aaaccount.repository.UserRepository;
 
 @Service("familyService")
 public class FamilyServiceImpl implements FamilyService {
@@ -30,9 +33,27 @@ public class FamilyServiceImpl implements FamilyService {
 	@Resource
 	private FamilyRepository familyRepository;
 
+	@Resource
+	private UserRepository userRepository;
+
 	@Override
 	public OperateResult<Family> get(String id) {
-		return new OperateResult<Family>(familyRepository.findById(id).get());
+		Family res = familyRepository.findById(id).get();
+		List<User> users = new ArrayList<>();
+		res.getMember().forEach(new Consumer<User>() {
+
+			@Override
+			public void accept(User user) {
+				User tUser = new User();
+				tUser.setId(user.getId());
+				tUser.setName(user.getName());
+				if (!TextUtils.isEmpty(user.getToken()))
+					tUser.setToken("***");// 暂时用token判断是否是注册用户
+				users.add(tUser);
+			}
+		});
+		res.setMember(users);
+		return new OperateResult<Family>(res);
 	}
 
 	@Override
@@ -40,33 +61,36 @@ public class FamilyServiceImpl implements FamilyService {
 		Specification<Family> specification = new Specification<Family>() {
 			@Override
 			public Predicate toPredicate(Root<Family> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
-//				User user = new User();
-//				user.setId(userid);
-				Join<Family, User> join=root.join("member",JoinType.INNER);
+				Join<Family, User> join = root.join("member", JoinType.INNER);
 				return criteriaBuilder.and(criteriaBuilder.equal(join.get("id"), userid));
 			}
 		};
-		
-		   
-		
-//		String hql = "select family, user from family f join f.member us where us.user_id='" + userid + "'";
+
 		try {
+			List<Family> res = new ArrayList<>();
+			res = (List<Family>) familyRepository.findAll(specification);
 
-//			List<Object[]> objres = familyRepository.getFamilyByMember(hql);
-			  List<Family> res = new ArrayList<>();
-//			objres.forEach(new Consumer<Object[]>() {
-//
-//				@Override
-//				public void accept(Object[] obj) {
-//					Family family = (Family) obj[0];
-//					res.add(family);
-//				}
-//			});
+			res.forEach(new Consumer<Family>() {
 
-			res=	 (List<Family>) familyRepository.findAll(specification);
+				@Override
+				public void accept(Family tf) {
+					List<User> users = new ArrayList<>();
+					tf.getMember().forEach(new Consumer<User>() {
 
-//			if (res == null)
-//				res = new ArrayList<>();
+						@Override
+						public void accept(User user) {
+							User tUser = new User();
+							tUser.setId(user.getId());
+							tUser.setName(user.getName());
+							users.add(tUser);
+						}
+					});
+					tf.setMember(users);
+
+					tf.setUpdateTime(null);
+					tf.setCreateTime(null);
+				}
+			});
 			return new OperateResult<>(res);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,9 +109,17 @@ public class FamilyServiceImpl implements FamilyService {
 	}
 
 	@Override
-	public OperateResult<Object> join(String fid, String uid) {
-		// TODO Auto-generated method stub
-		return null;
+	public OperateResult<String> join(String fid, User user) {
+		if (TextUtils.isEmpty(user.getId())) {
+			user = userRepository.save(user);
+		}
+		Family family = familyRepository.findById(fid).get();
+		family.getMember().add(user);
+		family = familyRepository.save(family);
+		if (family != null)
+			return new OperateResult<>();
+		else
+			return new OperateResult<>(user.getId());
 	}
 
 	@Override
@@ -98,18 +130,6 @@ public class FamilyServiceImpl implements FamilyService {
 
 	@Override
 	public OperateResult<Object> del(String fid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OperateResult<User> addMember(Family family) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public OperateResult<Object> delMemeber(String fid, String uid) {
 		// TODO Auto-generated method stub
 		return null;
 	}

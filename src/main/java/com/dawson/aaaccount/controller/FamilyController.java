@@ -36,7 +36,7 @@ public class FamilyController {
 
 	@RequestMapping("/get")
 	public OperateResult<Family> get(@RequestBody Map<String, String> body) {
-		String id=body.get("id");
+		String id = body.get("id");
 		if (TextUtils.isEmpty(id))
 			return CommonUtils.<Family>getParamError();
 		else
@@ -45,7 +45,7 @@ public class FamilyController {
 
 	@RequestMapping("/get_my_family")
 	public OperateResult<List<Family>> getMyFamily(@RequestBody Map<String, String> body) {
-		String userid=body.get("uid");
+		String userid = body.get("uid");
 		if (TextUtils.isEmpty(userid))
 			return CommonUtils.<List<Family>>getParamError();
 		else
@@ -54,20 +54,25 @@ public class FamilyController {
 	}
 
 	@RequestMapping("/join")
-	public OperateResult<Object> join(@RequestBody Map<String, String> body) {
+	public OperateResult<String> join(@RequestBody Map<String, String> body) {
 		String fid = null;
 		String uid = null;
+		String uname = null;
 		try {
 			fid = body.get("fid");
 			uid = body.get("uid");
-
-			if (TextUtils.isEmpty(fid) || TextUtils.isEmpty(uid))
-				return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
+			uname = body.get("uname");
+			if (TextUtils.isEmpty(fid))
+				return new OperateResult<String>(ErrorCode.PARAM_ERROR, "参数错误");
+			if (TextUtils.isEmpty(uid) && TextUtils.isEmpty(uname))
+				return new OperateResult<String>(ErrorCode.PARAM_ERROR, "参数错误");
 		} catch (Exception e) {
-			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
+			return new OperateResult<String>(ErrorCode.PARAM_ERROR, "参数错误");
 		}
-
-		return familyService.join(fid, uid);
+		User user = new User();
+		user.setId(uid);
+		user.setName(uname);
+		return familyService.join(fid, user);
 	}
 
 	@RequestMapping("/dis_join")
@@ -88,34 +93,9 @@ public class FamilyController {
 
 	@RequestMapping("/del")
 	public OperateResult<Object> del(@RequestBody Map<String, String> body) {
-		String id=body.get("id");
+		String id = body.get("id");
 		if (TextUtils.isEmpty(id))
 			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
 		return familyService.del(id);
-	}
-
-	@RequestMapping("/add_member")
-	public OperateResult<User> addMember(@RequestBody Family family) {
-		if (family == null || family.getMember() == null || family.getMember().isEmpty())
-			return new OperateResult<User>(ErrorCode.PARAM_ERROR, "参数错误");
-		return familyService.addMember(family);
-	}
-	
-	@RequestMapping("/del_member")
-	public OperateResult<Object> delMemeber(@RequestBody  Map<String, String> body) {
-		
-		String fid = null;
-		String uid = null;
-		try {
-			fid = body.get("fid");
-			uid = body.get("uid");
-
-			if (TextUtils.isEmpty(fid) || TextUtils.isEmpty(uid))
-				return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
-		} catch (Exception e) {
-			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
-		}
-  
-		return familyService.delMemeber(fid,uid);
 	}
 }

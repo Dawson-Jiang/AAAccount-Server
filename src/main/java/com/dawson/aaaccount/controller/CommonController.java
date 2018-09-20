@@ -1,18 +1,55 @@
 package com.dawson.aaaccount.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.AVUser;
+import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
 
+@RestController
+@RequestMapping("/common")
 public class CommonController {
 
+	  /**
+     * 实现文件上传
+     * */
+    @RequestMapping("/file_upload")
+    public OperateResult<String> fileUpload(@RequestParam("fileName") MultipartFile file){
+        if(file.isEmpty()){
+        	  return new OperateResult<>();
+        }
+        String fileName = file.getOriginalFilename();
+        int size = (int) file.getSize();
+        System.out.println(fileName + "-->" + size);
+        
+        String path = "E:/test" ;
+        File dest = new File(path + "/" + fileName);
+        if(!dest.getParentFile().exists()){ //判断文件父目录是否存在
+            dest.getParentFile().mkdir();
+        }
+        try {
+            file.transferTo(dest); //保存文件
+            return new OperateResult<>(fileName);
+        } catch (IllegalStateException e) { 
+            e.printStackTrace();
+            return new OperateResult<>();
+        } catch (IOException e) { 
+            e.printStackTrace();
+            return new OperateResult<>();
+        }
+    }
+	
 	
 	@RequestMapping("/getusers")
 	public List<User> getUsers() {

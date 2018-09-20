@@ -12,13 +12,9 @@ public interface FamilyService {
  
 	OperateResult<String> save(Family family);
 
-	OperateResult<Object> join(String fid,String uid);
+	OperateResult<String> join(String fid,User user);
 	
 	OperateResult<Object> disJoin(String fid,String uid);
 	
-	OperateResult<Object> del(String fid);
-	
-	OperateResult<User> addMember(Family family);
-	
-	OperateResult<Object> delMemeber(String fid,String uid);
+	OperateResult<Object> del(String fid); 
 }

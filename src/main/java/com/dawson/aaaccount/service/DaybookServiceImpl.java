@@ -161,7 +161,8 @@ public class DaybookServiceImpl implements DaybookService {
 						CriteriaBuilder criteriaBuilder) {
 					User user = new User();
 					user.setId(uid);
-					return criteriaBuilder.and(criteriaBuilder.equal(root.get("recorder").as(User.class), user));
+					return criteriaBuilder.and(criteriaBuilder.equal(root.get("recorder").as(User.class), user),
+							                    root.get("family").isNull());
 				}
 			};
 			List<Daybook> res = daybookRepository.findAll(specification, pageable).getContent();

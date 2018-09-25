@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
 		tUser = userRepository.save(tUser);
 
 		if (tUser != null) {
+			tUser.setLoginInfo(null);
 			return new OperateResult<User>(tUser);
 		}else
 			return new OperateResult<User>(ErrorCode.FAIL, "");

@@ -22,7 +22,7 @@ import com.dawson.aaaccount.service.FamilyService;
 public class FamilyController {
 
 	@Resource
-	private FamilyService familyService;
+	private FamilyService fService;
 
 	@RequestMapping("/save")
 	public OperateResult<String> save(@RequestBody Family family) {
@@ -30,7 +30,7 @@ public class FamilyController {
 		if (family == null)
 			return CommonUtils.<String>getParamError();
 		else
-			return familyService.save(family);
+			return fService.save(family);
 
 	}
 
@@ -40,7 +40,7 @@ public class FamilyController {
 		if (TextUtils.isEmpty(id))
 			return CommonUtils.<Family>getParamError();
 		else
-			return familyService.get(id);
+			return fService.get(id);
 	}
 
 	@RequestMapping("/get_my_family")
@@ -49,7 +49,7 @@ public class FamilyController {
 		if (TextUtils.isEmpty(userid))
 			return CommonUtils.<List<Family>>getParamError();
 		else
-			return familyService.getMyFamily(userid);
+			return fService.getMyFamily(userid);
 
 	}
 
@@ -72,7 +72,7 @@ public class FamilyController {
 		User user = new User();
 		user.setId(uid);
 		user.setName(uname);
-		return familyService.join(fid, user);
+		return fService.join(fid, user);
 	}
 
 	@RequestMapping("/dis_join")
@@ -88,7 +88,7 @@ public class FamilyController {
 		} catch (Exception e) {
 			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
 		}
-		return familyService.disJoin(fid, uid);
+		return fService.disJoin(fid, uid);
 	}
 
 	@RequestMapping("/del")
@@ -96,6 +96,6 @@ public class FamilyController {
 		String id = body.get("id");
 		if (TextUtils.isEmpty(id))
 			return new OperateResult<Object>(ErrorCode.PARAM_ERROR, "参数错误");
-		return familyService.del(id);
+		return fService.del(id);
 	}
 }

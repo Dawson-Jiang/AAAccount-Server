@@ -14,16 +14,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
-  
-	public   BaseEntity() {		}
-	public   BaseEntity(boolean isclean) {
-		if(isclean) {
+
+	public BaseEntity() {
+	}
+
+	public BaseEntity(boolean isclean) {
+		if (isclean) {
 			setCreateTime(null);
 			setUpdateTime(null);
 		}
 	}
-	
-	
+
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")

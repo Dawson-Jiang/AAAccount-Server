@@ -1,9 +1,12 @@
 package com.dawson.aaaccount.entity;
  
-import javax.persistence.Entity; 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "feedback")
@@ -17,10 +20,17 @@ public class Feedback  extends BaseEntity {
     private String title;
  
     private String content;
- 
+    
+    @GeneratedValue(generator = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
     private String sessionId;
  
     private Byte status;
+    
+    /**
+     * 客服的回复
+     */
+    private String reply;
   
     public User getUser() {
 		return user;
@@ -61,4 +71,12 @@ public class Feedback  extends BaseEntity {
     public void setStatus(Byte status) {
         this.status = status;
     }
+
+	public String getReply() {
+		return reply;
+	}
+
+	public void setReply(String reply) {
+		this.reply = reply;
+	}
 }

@@ -3,6 +3,7 @@ package com.dawson.aaaccount.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -25,7 +26,7 @@ public class CommonController {
      * 实现文件上传
      * */
     @RequestMapping("/file_upload")
-    public OperateResult<String> fileUpload(@RequestParam("fileName") MultipartFile file){
+    public OperateResult<List<String>> fileUpload(@RequestParam("fileName") MultipartFile file){
         if(file.isEmpty()){
         	  return new OperateResult<>();
         }
@@ -40,7 +41,10 @@ public class CommonController {
         }
         try {
             file.transferTo(dest); //保存文件
-            return new OperateResult<>(fileName);
+            List<String> fs=new ArrayList<>();
+            fs.add(fileName);
+            fs.add("th"+fileName);
+            return new OperateResult<>(fs);
         } catch (IllegalStateException e) { 
             e.printStackTrace();
             return new OperateResult<>();

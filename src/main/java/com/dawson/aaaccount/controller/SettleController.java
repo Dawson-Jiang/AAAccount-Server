@@ -1,5 +1,8 @@
 package com.dawson.aaaccount.controller;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +21,26 @@ public class SettleController {
 	private SettleService settleService;
 	
 	@RequestMapping("/settle")
-	public OperateResult<Object> name(@RequestBody Settle settle) {
-		return new OperateResult<Object>(0);
+	public OperateResult<String> settle(@RequestBody Settle settle) {
+		return new OperateResult<String>("");
 	}
+	
+	
+	@RequestMapping("/get_family_settle")
+	public OperateResult<List<Settle>> getFamilySettle(@RequestBody  Map<String,String> param) {
+		return new OperateResult<List<Settle>>(null);
+	}
+	
+	
+	
+	@RequestMapping("/statistic")
+	public OperateResult<Settle> statistic(@RequestBody  Map<String,String> param) {
+		return new OperateResult<Settle>(null);
+	}
+	
+	
+	@RequestMapping("/statistic_mine")
+	public OperateResult<Settle> statisticMine(@RequestBody  Map<String,String> param) {
+		return new OperateResult<Settle>(null);
+	} 
 }

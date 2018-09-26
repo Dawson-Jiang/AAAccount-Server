@@ -42,8 +42,7 @@ public class FeedbackServiceImpl implements FeedbackService {
 					CriteriaBuilder cb) {
 			   query.where(cb.equal(root.get("user").as(User.class), user) )
 //					.groupBy(root.get("session_id"))
-					.orderBy(cb.desc(root.get("createTime").as(Date.class)))
-					.getRestriction();
+					.orderBy(cb.desc(root.get("createTime").as(Date.class)));			 
 			  	return null;
 		  }
 		};

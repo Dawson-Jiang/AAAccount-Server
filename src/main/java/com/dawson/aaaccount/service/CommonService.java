@@ -1,5 +1,11 @@
 package com.dawson.aaaccount.service;
 
-public interface CommonService {
-boolean syncFromLeancloud();
+import com.dawson.aaaccount.entity.OperateResult;
+
+public interface CommonService { 
+OperateResult<String> syncUserFromLeancloud();
+OperateResult<String> syncMemberFromLeancloud();
+OperateResult<String> syncCategoryFromLeancloud();
+OperateResult<String> syncFamilyFromLeancloud();
+OperateResult<String> syncDaybookFromLeancloud();
 }

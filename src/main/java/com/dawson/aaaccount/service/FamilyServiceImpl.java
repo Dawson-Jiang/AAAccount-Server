@@ -47,8 +47,7 @@ public class FamilyServiceImpl implements FamilyService {
 				User tUser = new User();
 				tUser.setId(user.getId());
 				tUser.setName(user.getName());
-				if (!TextUtils.isEmpty(user.getToken()))
-					tUser.setToken("***");// 暂时用token判断是否是注册用户
+				tUser.setMember(user.isMember());
 				users.add(tUser);
 			}
 		});

@@ -7,8 +7,15 @@ import javax.persistence.Table;
 @Table(name="category")
 public class Category extends BaseEntity{ 
     private static final long serialVersionUID = 7419229779739851545L;
-    
-     private String name;
+ 
+	public Category() {
+	}
+
+	public Category(boolean isclean) {
+		super(isclean);
+	}
+	
+    private String name;
  
     private Integer orderFlag;
 

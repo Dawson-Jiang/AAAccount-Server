@@ -16,10 +16,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service; 
+import org.springframework.stereotype.Service;
 
 import com.dawson.aaaccount.entity.Daybook;
-import com.dawson.aaaccount.entity.Family; 
+import com.dawson.aaaccount.entity.Family;
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.Settle;
 import com.dawson.aaaccount.entity.SettleDetail;
@@ -28,6 +28,7 @@ import com.dawson.aaaccount.repository.DaybookRepository;
 import com.dawson.aaaccount.repository.FamilyRepository;
 import com.dawson.aaaccount.repository.SettleRepository;
 import com.dawson.aaaccount.repository.UserRepository;
+import com.dawson.aaaccount.utils.CommonUtils;
 
 @Service("settleService")
 public class SettleServiceImpl implements SettleService {
@@ -46,32 +47,24 @@ public class SettleServiceImpl implements SettleService {
 
 	@Override
 	public OperateResult<String> settle(Settle settle) {
-		settleRepository.save(settle);
+	settle=	settleRepository.save(settle);
+	if(settle==null)return new OperateResult<>();
+	else  return new OperateResult<>(settle.getId());
+	}
+
+	@Override
+	public OperateResult<List<Settle>> getFamilySettle(String fid) {
 		return null;
 	}
 
 	@Override
-	public OperateResult<List<Settle>> getFamilySettle(Map<String, String> param) {
-
-		return null;
-	}
-
-	@Override
-	public OperateResult<Settle> statistic(Map<String, String> param) {
+	public OperateResult<Settle> statistic(String fid, Date start, Date end) {
 		final Family family = new Family(true);
-		family.setId(param.get("fid"));
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		family.setId(fid);
 		Specification<Daybook> specification = new Specification<Daybook>() {
 			@Override
 			public Predicate toPredicate(Root<Daybook> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-				Date start = null, end = null;
-				try {
-					start = simpleDateFormat.parse(param.get("start"));
-					end = simpleDateFormat.parse(param.get("end"));
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
 				Predicate predicate = cb.and(cb.equal(root.get("family").as(Family.class), family),
 						cb.between(root.get("date").as(Date.class), cb.literal(start), cb.literal(end)),
 						cb.notEqual(root.get("settled"), 1));
@@ -115,7 +108,7 @@ public class SettleServiceImpl implements SettleService {
 				settleDetails.forEach(new Consumer<SettleDetail>() {
 					@Override
 					public void accept(SettleDetail detail) {
-						if (userEquals(puser, detail.getUser()))
+						if (CommonUtils. userEquals(puser, detail.getUser()))
 							detail.getPay().add(m);
 					}
 				});
@@ -126,7 +119,7 @@ public class SettleServiceImpl implements SettleService {
 						settleDetails.forEach(new Consumer<SettleDetail>() {
 							@Override
 							public void accept(SettleDetail detail) {
-								if (userEquals(user, detail.getUser()))
+								if (CommonUtils. userEquals(user, detail.getUser()))
 									detail.getConsume().add(avm);
 							}
 						});
@@ -146,27 +139,45 @@ public class SettleServiceImpl implements SettleService {
 		return new OperateResult<Settle>(settle);
 	};
 
-	private boolean userEquals(User user1, User user2) {
-		if (user1 == null && user2 == null)
-			return true;
-		if (user1 != null && user2 != null) {
-			return stringEquals(user1.getId(), user2.getId());
-		} else
-			return false;
-	}
-
-	private boolean stringEquals(String str1, String str2) {
-		if (str1 == null && str2 == null)
-			return true;
-		if (str1 != null && str2 != null) {
-			return str1.equals(str2);
-		} else
-			return false;
-	}
-
 	@Override
-	public OperateResult<Settle> statisticMine(Map<String, String> param) {
-		// TODO Auto-generated method stub
-		return null;
+	public OperateResult<Settle> statisticMine(String uid, Date start, Date end) {
+
+		User user = new User();
+		user.setId(uid);
+
+		Specification<Daybook> specification = new Specification<Daybook>() {
+			@Override
+			public Predicate toPredicate(Root<Daybook> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+
+				Predicate predicate = cb.and(cb.equal(root.get("recorder").as(User.class), user),
+						root.get("family").isNull(),
+						cb.between(root.get("date").as(Date.class), cb.literal(start), cb.literal(end)),
+						cb.notEqual(root.get("settled"), 1));
+				query.where(predicate).orderBy(cb.desc(root.get("createTime").as(Date.class)));
+				return null;
+			}
+		};
+
+		List<Daybook> daybooks = daybookRepository.findAll(specification);
+		Settle settle = new Settle(true);
+
+		settle.setStartDate(daybooks.get(0).getDate());
+		settle.setEndDate(daybooks.get(daybooks.size() - 1).getDate());
+		if (daybooks.isEmpty()) {
+			return new OperateResult<Settle>(settle);
+		}
+
+		BigDecimal totalMoney = new BigDecimal(0.0);
+		daybooks.forEach(new Consumer<Daybook>() {
+			@Override
+			public void accept(Daybook dbook) {
+				totalMoney.add(dbook.getMoney());// 消费总金额
+
+			}
+		});
+		settle.setMoney(totalMoney);
+
+		return new OperateResult<Settle>(settle);
+
 	}
 }

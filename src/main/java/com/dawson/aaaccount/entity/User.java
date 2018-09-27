@@ -52,6 +52,9 @@ public class User extends BaseEntity {
 
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String openid;
+	
+	 
+	private boolean isMember;
 
 	public String getName() {
 		return name;
@@ -115,5 +118,13 @@ public class User extends BaseEntity {
 
 	public void setOpenid(String openid) {
 		this.openid = openid == null ? null : openid.trim();
+	}
+
+	public boolean isMember() {
+		return isMember;
+	}
+
+	public void setMember(boolean isMember) {
+		this.isMember = isMember;
 	}
 }

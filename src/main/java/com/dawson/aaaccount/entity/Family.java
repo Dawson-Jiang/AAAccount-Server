@@ -30,6 +30,11 @@ public class Family extends BaseEntity {
 	@ManyToMany
 	@JoinTable(name = "family_member", joinColumns = @JoinColumn(name = "family_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private List<User> member;
+	
+	/**
+	 * 头像
+	 */
+	private String head;
 
 	public User getCreator() {
 		return creator;
@@ -53,5 +58,13 @@ public class Family extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name == null ? null : name.trim();
+	}
+
+	public String getHead() {
+		return head;
+	}
+
+	public void setHead(String head) {
+		this.head = head;
 	}
 }

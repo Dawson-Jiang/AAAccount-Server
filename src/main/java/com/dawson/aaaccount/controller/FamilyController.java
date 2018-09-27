@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dawson.aaaccount.CommonUtils;
 import com.dawson.aaaccount.entity.ErrorCode;
 import com.dawson.aaaccount.entity.Family;
 import com.dawson.aaaccount.entity.OperateResult;
 import com.dawson.aaaccount.entity.User;
 import com.dawson.aaaccount.service.FamilyService;
+import com.dawson.aaaccount.utils.CommonUtils;
 
 @RestController
 @RequestMapping("/family")

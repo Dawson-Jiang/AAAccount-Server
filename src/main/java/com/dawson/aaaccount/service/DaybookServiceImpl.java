@@ -59,11 +59,13 @@ public class DaybookServiceImpl implements DaybookService {
 	public OperateResult<Daybook> get(String id) {
 		try {
 			Daybook daybook = daybookRepository.findById(id).get();
-
-			User tUser = new User(true);
+			User tUser =null;
+			if(daybook.getPayer()!=null) {
+			  tUser = new User(true);
 			tUser.setId(daybook.getPayer().getId());
 			tUser.setName(daybook.getPayer().getName());
 			daybook.setPayer(tUser);
+			}
 
 			tUser = new User(true);
 			tUser.setId(daybook.getRecorder().getId());

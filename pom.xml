@@ -6,8 +6,8 @@
 
 	<groupId>com.dawson</groupId>
 	<artifactId>aaaccount</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<version>1.0.0.RELEASE</version>
+	<packaging>war</packaging>
 
 	<name>aaaccount</name>
 	<description>Demo project for Spring Boot</description>
@@ -37,6 +37,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -48,7 +54,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		 
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>cn.leancloud</groupId>
@@ -62,7 +73,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin> 
+			</plugin>
 		</plugins>
 	</build>
 </project>

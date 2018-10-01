@@ -8,14 +8,22 @@ import java.util.Random;
  
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SpringBootApplication
 //@MapperScan("com.dawson.aaaccount.domain")
-public class AaaccountApplication {
+public class AaaccountApplication extends SpringBootServletInitializer{
 
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		// TODO Auto-generated method stub
+		return builder.sources(AaaccountApplication.class);
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AaaccountApplication.class, args);
 		AVOSCloud.initialize("mcoshkm3fro2kef3j4wtkxyid7k6o7zga85g4wjj0c4fc1tw","fh1oohucqgtrv4572ldsswyn9y7udnuw59el6it3xqxjdlpp","kh5s7v43g6i7ivls88q5u86lm92xfrsom47l99t7ifphapcd");

@@ -34,6 +34,12 @@ public class CommonController {
 
 	@Resource
 	private CommonService commonService;
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public OperateResult<String> test() {
+		return new OperateResult<>("success");
+	}
 
 	/**
 	 * 实现文件上传

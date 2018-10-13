@@ -79,4 +79,9 @@ public class Feedback  extends BaseEntity {
 	public void setReply(String reply) {
 		this.reply = reply;
 	}
+	
+	@Override
+	public Feedback cleanClone() {
+ 		return  null;
+	}
 }

@@ -296,4 +296,9 @@ public class SystemLog extends BaseEntity {
     public void setType(String type) {
         this.type = type == null ? null : type.trim();
     }
+
+    @Override
+	public SystemLog cleanClone() {
+ 		return null;
+	}
 }

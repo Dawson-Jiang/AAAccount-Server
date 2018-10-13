@@ -18,6 +18,11 @@ public abstract class BaseEntity implements Serializable {
 	public BaseEntity() {
 	}
 
+	public BaseEntity(String id) {
+		this(true);
+		this.id = id;
+	}
+
 	public BaseEntity(boolean isclean) {
 		if (isclean) {
 			setCreateTime(null);
@@ -58,4 +63,5 @@ public abstract class BaseEntity implements Serializable {
 		this.updateTime = updateTime;
 	}
 
+	public abstract BaseEntity   cleanClone ();
 }

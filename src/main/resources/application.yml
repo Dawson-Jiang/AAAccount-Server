@@ -3,7 +3,8 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://47.92.224.127:3306/aaaccount
+    #url: jdbc:mysql://47.92.224.127:3306/aaaccount
+    url: jdbc:mysql://localhost:3306/aaaccount
     username: root
     password: 1111
     driver-class-name: com.mysql.jdbc.Driver

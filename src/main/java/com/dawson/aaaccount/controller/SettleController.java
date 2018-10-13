@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.http.util.TextUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +45,9 @@ public class SettleController {
 	public OperateResult<Settle> statistic(@RequestBody Map<String, String> param) {
 		String fid = param.get("fid");
 		Date start = null, end = null;
+		boolean is_settled=false;
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
+		
 		try {
 			start = simpleDateFormat.parse(param.get("start"));
 			end = simpleDateFormat.parse(param.get("end"));
@@ -53,6 +56,13 @@ public class SettleController {
 			return new OperateResult<Settle>(ErrorCode.PARAM_ERROR, "参数错误");
 		}
 		return settleService.statistic(fid, start, end);
+	}
+	
+	@RequestMapping("/statistic_unsettled")
+	public OperateResult<Settle> statisticUnSettled(@RequestBody Map<String, String> param) {
+		String fid = param.containsKey("fid")?param.get("fid"):"";
+		if(TextUtils.isBlank(fid))			return new OperateResult<Settle>(ErrorCode.PARAM_ERROR, "参数错误");
+		return settleService.statisticUnSettled(fid);
 	}
 
 	@RequestMapping("/statistic_mine")

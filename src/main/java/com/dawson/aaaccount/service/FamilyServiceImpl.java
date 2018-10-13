@@ -110,6 +110,7 @@ public class FamilyServiceImpl implements FamilyService {
 	@Override
 	public OperateResult<String> join(String fid, User user) {
 		if (TextUtils.isEmpty(user.getId())) {
+			user.setMember(true);
 			user = userRepository.save(user);
 		}
 		Family family = familyRepository.findById(fid).get();

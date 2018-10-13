@@ -28,9 +28,8 @@ public class FeedbackController {
 		try {
 			feedback.setTitle(param.get("title"));
 			feedback.setContent(param.get("content"));
-			User user = new User(true);
-			user.setId(param.get("uid"));
-			feedback.setUser(user);
+			User user = new User(param.get("uid"));
+ 			feedback.setUser(user);
 		} catch (Exception e) {
 			return CommonUtils.<String>getParamError();
 		}

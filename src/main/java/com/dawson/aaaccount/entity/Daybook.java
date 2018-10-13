@@ -21,8 +21,8 @@ public class Daybook extends BaseEntity {
 	public Daybook() {
 	}
 
-	public Daybook(boolean isclean) {
-		super(isclean);
+	public Daybook(String id) {
+		super(id);
 	}
 
 	private BigDecimal money;
@@ -105,8 +105,8 @@ public class Daybook extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "settle_id")
-	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private Settle settle;
+	
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String pic1;
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -160,5 +160,10 @@ public class Daybook extends BaseEntity {
 
 	public void setPic3(String pic3) {
 		this.pic3 = pic3 == null ? null : pic3.trim();
+	}
+
+	@Override
+	public Daybook cleanClone() {
+		return new Daybook(getId());
 	}
 }

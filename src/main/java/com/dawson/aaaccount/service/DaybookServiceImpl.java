@@ -47,9 +47,10 @@ public class DaybookServiceImpl implements DaybookService {
 	@Override
 	public OperateResult<List<Category>> getCategory() {
 		try {
-			List<Category> res=(List<Category>) categoryRepository.findAll();
-			if(res==null)res=new ArrayList<>();
-			 return new OperateResult<>(res);
+			List<Category> res = (List<Category>) categoryRepository.findAll();
+			if (res == null)
+				res = new ArrayList<>();
+			return new OperateResult<>(res);
 		} catch (Exception e) {
 			return new OperateResult<>(0, "操作失败");
 		}
@@ -59,16 +60,14 @@ public class DaybookServiceImpl implements DaybookService {
 	public OperateResult<Daybook> get(String id) {
 		try {
 			Daybook daybook = daybookRepository.findById(id).get();
-			User tUser =null;
-			if(daybook.getPayer()!=null) {
-			  tUser = new User(true);
-			tUser.setId(daybook.getPayer().getId());
-			tUser.setName(daybook.getPayer().getName());
-			daybook.setPayer(tUser);
+			User tUser = null;
+			if (daybook.getPayer() != null) {
+				tUser = daybook.getPayer().cleanClone();
+				tUser.setName(daybook.getPayer().getName());
+				daybook.setPayer(tUser);
 			}
 
-			tUser = new User(true);
-			tUser.setId(daybook.getRecorder().getId());
+			tUser = daybook.getRecorder().cleanClone();
 			tUser.setName(daybook.getRecorder().getName());
 			daybook.setRecorder(tUser);
 
@@ -80,24 +79,21 @@ public class DaybookServiceImpl implements DaybookService {
 
 				@Override
 				public void accept(User user) {
-					User tUser = new User(true);
-					tUser.setId(user.getId());
+					User tUser = user.cleanClone();
 					tUser.setName(user.getName());
 					tUsers.add(tUser);
 				}
 			});
 			daybook.setConsumer(tUsers);
 
-			if(daybook.getFamily()!=null) {
-			Family tFamily = new Family(true);
-			tFamily.setId(daybook.getFamily().getId());
-			tFamily.setName(daybook.getFamily().getName());
-			daybook.setFamily(tFamily);
+			if (daybook.getFamily() != null) {
+				Family tFamily = daybook.getFamily().cleanClone();
+				tFamily.setName(daybook.getFamily().getName());
+				daybook.setFamily(tFamily);
 			}
 
 			if (daybook.getSettle() != null) {
-				Settle tSettle = new Settle(true);
-				tSettle.setId(daybook.getSettle().getId());
+				Settle tSettle = daybook.getSettle().cleanClone();
 				daybook.setSettle(tSettle);
 			}
 
@@ -128,8 +124,7 @@ public class DaybookServiceImpl implements DaybookService {
 
 				@Override
 				public void accept(Daybook daybook) {
-					Daybook tDaybook = new Daybook(true);
-					tDaybook.setId(daybook.getId());
+					Daybook tDaybook = daybook.cleanClone();
 					tDaybook.setPic1(daybook.getPic1());
 					tDaybook.setMoney(daybook.getMoney());
 					tDaybook.setCategory(daybook.getCategory());
@@ -137,11 +132,11 @@ public class DaybookServiceImpl implements DaybookService {
 					tDaybook.getCategory().setUpdateTime(null);
 					tDaybook.setDate(daybook.getDate());
 
-					User tUser = new User(true);
-					tUser.setId(daybook.getPayer().getId());
+					User tUser = daybook.getPayer().cleanClone();
 					tUser.setName(daybook.getPayer().getName());
 					tDaybook.setPayer(tUser);
-
+					if (daybook.getSettle() != null)
+						tDaybook.setSettle(daybook.getSettle().cleanClone());
 					tDaybooks.add(tDaybook);
 				}
 			});
@@ -164,7 +159,7 @@ public class DaybookServiceImpl implements DaybookService {
 					User user = new User();
 					user.setId(uid);
 					return criteriaBuilder.and(criteriaBuilder.equal(root.get("recorder").as(User.class), user),
-							                    root.get("family").isNull());
+							root.get("family").isNull());
 				}
 			};
 			List<Daybook> res = daybookRepository.findAll(specification, pageable).getContent();
@@ -174,15 +169,13 @@ public class DaybookServiceImpl implements DaybookService {
 
 				@Override
 				public void accept(Daybook daybook) {
-					Daybook tDaybook = new Daybook(true);
-					tDaybook.setId(daybook.getId());
+					Daybook tDaybook = daybook.cleanClone();
 					tDaybook.setPic1(daybook.getPic1());
 					tDaybook.setMoney(daybook.getMoney());
 					tDaybook.setCategory(daybook.getCategory());
 					tDaybook.getCategory().setCreateTime(null);
 					tDaybook.getCategory().setUpdateTime(null);
 					tDaybook.setDate(daybook.getDate());
-
 					tDaybooks.add(tDaybook);
 				}
 			});

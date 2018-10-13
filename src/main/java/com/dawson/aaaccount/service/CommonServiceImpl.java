@@ -141,31 +141,28 @@ public class CommonServiceImpl implements CommonService {
 				ddaybook.setDes(avObject.getString(LeancloudField.DAY_BOOK.DESCRIPTION));
 
 				AVObject avcategory = avObject.getAVObject(LeancloudField.DAY_BOOK.CONSUME_CATEGORY);
-				Category category = new Category(true);
-				category.setId(avcategory.getObjectId());
-				ddaybook.setCategory(category);
+				Category category = new Category(avcategory.getObjectId());
+ 				ddaybook.setCategory(category);
 
-				User recorder = new User(true);
-				AVUser avRecorder = avObject.getAVUser(LeancloudField.DAY_BOOK.RECORDER, AVUser.class);
-				recorder.setId(avRecorder.getObjectId());
+ 				AVUser avRecorder = avObject.getAVUser(LeancloudField.DAY_BOOK.RECORDER, AVUser.class);
+				User recorder = new User(avRecorder.getObjectId());
 				ddaybook.setRecorder(recorder);
 
 				AVObject avfamily = avObject.getAVObject(LeancloudField.DAY_BOOK.FAMILY);
 				boolean isTemp = false;
 				if (avfamily != null) {
-					Family family = new Family(true);
-					family.setId(avfamily.getObjectId());
-					ddaybook.setFamily(family);
+					Family family = new Family(avfamily.getObjectId());
+ 					ddaybook.setFamily(family);
 					isTemp = avfamily.getBoolean(LeancloudField.FAMILY.TEMP);
 				}
 
-				User payer = new User(true);
+				User payer ;
 				if (ddaybook.getFamily() != null && isTemp) {
 					AVObject avpayer = avObject.getAVObject(LeancloudField.DAY_BOOK.PAYER2);
-					payer.setId(avpayer.getObjectId());
+					payer = new User(avpayer.getObjectId());
 				} else {
 					AVUser avpayer = avObject.getAVUser(LeancloudField.DAY_BOOK.PAYER, AVUser.class);
-					payer.setId(avpayer.getObjectId());
+					payer = new User(avpayer.getObjectId());
 				}
 				ddaybook.setPayer(payer);
 
@@ -180,10 +177,8 @@ public class CommonServiceImpl implements CommonService {
 							avmembers.forEach(new Consumer<AVObject>() {
 
 								@Override
-								public void accept(AVObject member) {
-									User user = new User(true);
-									user.setId(member.getObjectId());
-									consumer.add(user);
+								public void accept(AVObject member) { 
+									consumer.add(new User(member.getObjectId()));
 								}
 							});
 						} catch (AVException e) {
@@ -199,10 +194,8 @@ public class CommonServiceImpl implements CommonService {
 							avumembers.forEach(new Consumer<AVUser>() {
 
 								@Override
-								public void accept(AVUser umember) {
-									User user = new User(true);
-									user.setId(umember.getObjectId());
-									consumer.add(user);
+								public void accept(AVUser umember) { 
+									consumer.add(new User(umember.getObjectId()));
 								}
 							});
 
@@ -289,10 +282,9 @@ public class CommonServiceImpl implements CommonService {
 				dfamily.setUpdateTime(avObject.getUpdatedAt());
 				dfamily.setName(avObject.getString(LeancloudField.FAMILY.NAME));
 
-				User creator = new User(true);
 				AVUser avCreator = avObject.getAVUser(LeancloudField.FAMILY.CREATOR, AVUser.class);
-				creator.setId(avCreator.getObjectId());
-				dfamily.setCreator(creator);
+ 				User creator = new User(avCreator.getObjectId());
+ 				dfamily.setCreator(creator);
 
 				final List<User> members = new ArrayList<>();
 				boolean isTemp = avObject.getBoolean(LeancloudField.FAMILY.TEMP);
@@ -307,9 +299,7 @@ public class CommonServiceImpl implements CommonService {
 
 							@Override
 							public void accept(AVObject member) {
-								User user = new User(true);
-								user.setId(member.getObjectId());
-								members.add(user);
+ 								members.add(new User(member.getObjectId()));
 							}
 						});
 					} catch (AVException e) {
@@ -326,10 +316,8 @@ public class CommonServiceImpl implements CommonService {
 						avumembers.forEach(new Consumer<AVUser>() {
 
 							@Override
-							public void accept(AVUser umember) {
-								User user = new User(true);
-								user.setId(umember.getObjectId());
-								members.add(user);
+							public void accept(AVUser umember) { 
+								members.add( new User(umember.getObjectId()));
 							}
 						});
 

@@ -15,5 +15,7 @@ public interface SettleService {
 
 	OperateResult<Settle> statistic(String fid, Date start, Date end);
 
+	OperateResult<Settle> statisticUnSettled(String fid);
+
 	OperateResult<Settle> statisticMine(String uid, Date start, Date end);
 }

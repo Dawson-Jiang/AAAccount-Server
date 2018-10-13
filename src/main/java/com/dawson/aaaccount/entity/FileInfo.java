@@ -11,8 +11,8 @@ public class FileInfo extends BaseEntity {
 	public FileInfo() {
 	}
 
-	public FileInfo(boolean isclean) {
-		super(isclean);
+	public FileInfo(String id) {
+		super(id);
 	}
 	
 	private String name;
@@ -44,5 +44,10 @@ public class FileInfo extends BaseEntity {
 
 	public void setThUrl(String thUrl) {
 		this.thUrl = thUrl;
+	}
+	
+	@Override
+	public FileInfo cleanClone() {
+ 		return new FileInfo(getId());
 	}
 }

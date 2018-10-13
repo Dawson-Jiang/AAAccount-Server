@@ -57,4 +57,9 @@ public class LoginInfo   extends BaseEntity{
 	public void setOs(String os) {
 		this.os = os;
 	} 
+	
+	@Override
+	public LoginInfo cleanClone() {
+ 		return null;
+	}
 }

@@ -13,12 +13,19 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolver;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 @Entity
 @Table(name = "settle_detail")
 public class SettleDetail  extends BaseEntity {
 	private static final long serialVersionUID = 7419229779731365698L;
     
+	public   SettleDetail() {		}
+	public   SettleDetail(String id) {
+super(id);		 
+	}   
 
     /**
      *
@@ -27,7 +34,8 @@ public class SettleDetail  extends BaseEntity {
      *
      * @mbg.generated
      */
-    private BigDecimal consume;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+  private BigDecimal consume;
 
     /**
      *
@@ -36,7 +44,8 @@ public class SettleDetail  extends BaseEntity {
      *
      * @mbg.generated
      */
-    private BigDecimal pay;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+ private BigDecimal pay;
 
     /**
      *
@@ -45,7 +54,8 @@ public class SettleDetail  extends BaseEntity {
      *
      * @mbg.generated
      */
-    private BigDecimal settleMoney;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+ private BigDecimal settleMoney;
 
     /**
      *
@@ -56,6 +66,7 @@ public class SettleDetail  extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "user_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
     private User user;
 
     /**
@@ -65,7 +76,8 @@ public class SettleDetail  extends BaseEntity {
      *
      * @mbg.generated
      */
-    private Byte agree;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+  private Byte agree;
 
     /**
      *
@@ -76,7 +88,8 @@ public class SettleDetail  extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "settle_id")
-    private Settle settle;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+  private Settle settle;
 
       
     public BigDecimal getConsume() {
@@ -184,5 +197,9 @@ public class SettleDetail  extends BaseEntity {
 
 	public void setSettleMoney(BigDecimal settleMoney) {
 		this.settleMoney = settleMoney;
+	}
+	@Override
+	public SettleDetail cleanClone() {
+ 		return new SettleDetail(getId());
 	}
 }

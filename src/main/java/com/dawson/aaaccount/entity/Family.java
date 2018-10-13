@@ -9,6 +9,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(name = "family")
 public class Family extends BaseEntity {
@@ -17,23 +19,26 @@ public class Family extends BaseEntity {
 	public Family() {
 	}
 
-	public Family(boolean isclean) {
-		super(isclean);
+	public Family(String id) {
+		super(id);
 	}
-
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String name;
 
 	@ManyToOne
 	@JoinColumn(name = "creator_id")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private User creator;
 
 	@ManyToMany
 	@JoinTable(name = "family_member", joinColumns = @JoinColumn(name = "family_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-	private List<User> member;
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<User> member;
 	
 	/**
 	 * 头像
 	 */
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String head;
 
 	public User getCreator() {
@@ -66,5 +71,10 @@ public class Family extends BaseEntity {
 
 	public void setHead(String head) {
 		this.head = head;
+	}
+
+	@Override
+	public Family cleanClone() {
+		return new Family(getId());
 	}
 }

@@ -15,10 +15,10 @@ public class User extends BaseEntity {
 	private static final long serialVersionUID = 7419229779731522702L;
 
 	public User() {
-	}
-
-	public User(boolean isclean) {
-		super(isclean);
+	} 
+	
+	public User(String id) {
+		super(id);
 	}
 
 	private String name;
@@ -126,5 +126,10 @@ public class User extends BaseEntity {
 
 	public void setMember(boolean isMember) {
 		this.isMember = isMember;
+	}
+
+	@Override
+	public User cleanClone() {
+		return new User(getId());
 	}
 }
